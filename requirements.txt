@@ -1,0 +1,12 @@
+setuptools 
+wheel
+numpy
+spacy
+scikit-learn
+pytorch
+transformers
+ipywidgets
+tensorboardx
+optuna
+datasets
+accelerate
