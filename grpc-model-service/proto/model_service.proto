@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package modelservice;
+
+service ModelService {
+    rpc RestorePunctuation (PunctuationRequest) returns (PunctuationResponse);
+}
+
+message PunctuationRequest {
+    string text = 1;
+}
+
+message PunctuationResponse {
+    string restored_text = 1;
+}

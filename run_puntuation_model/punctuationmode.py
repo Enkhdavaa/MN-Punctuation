@@ -73,24 +73,16 @@ class PunctuationModel():
             if label in ".,?-:":
                 result += label+" "
         return result.strip()
-
-if __name__ == "__main__":    
-    model = PunctuationModel()
-
-    text = "тэгээд чойрисон хариулсан мао цэдэнбал энэ тухай биднээс юм асуугаагүй монгол улс тусгаар тогтносон улсаа зарчмын хувьд гэвэл тод гадаад монголчууд ялгаагүй нэг л монголчуудын учраас бидний нэгд нь нийлэх явдал бол зөв ирэх юм аа"
     
-    result = model.restore_punctuation(text)
-    print(result)
+    def run_model(self, text):
+        clean_text = self.preprocess(text)
+        labled_words = self.predict(clean_text)
 
-    clean_text = model.preprocess(text)
-    labled_words = model.predict(clean_text)
-    print(labled_words)
+        words = []
+        for word, label, score in labled_words:
+            if '1' in label:
+                words.append(f"{word}.")
+            else:
+                words.append(word)
 
-    words = []
-    for word, label, score in labled_words:
-        if '1' in label:
-            words.append(f"{word}.")
-        else:
-            words.append(word)
-
-    print("Final text:", " ".join(words))
+        return " ".join(words)
