@@ -1,3 +1,5 @@
+## This code is forked from https://github.com/oliverguhr/fullstop-deep-punctuation-prediction
+
 # FullStop: Multilingual Deep Models for Punctuation Prediction
 
 This work describes our contribution to the SEPP-NLG Shared Task in multilingual sentence segmentation and punctuation prediction.
@@ -12,7 +14,7 @@ Italian texts and an average F1-score of 0.78 for punctuation mark prediction.
 
 If you like to use the model on your own texts, you can [use our python package](https://github.com/oliverguhr/deepmultilingualpunctuation/).
 
-## Install 
+## Install
 
 To get started install the package from [pypi](https://pypi.org/project/deepmultilingualpunctuation/):
 
@@ -23,9 +25,11 @@ pip install deepmultilingualpunctuation
 Make sure your system has `cmake` installed, it's a prerequisite.
 
 ## Usage
-The ```PunctuationModel``` class an process texts of any length. Note that processing of very long texts can be time consuming.
+
+The `PunctuationModel` class an process texts of any length. Note that processing of very long texts can be time consuming.
 
 ### Restore Punctuation
+
 ```python
 from deepmultilingualpunctuation import PunctuationModel
 
@@ -36,10 +40,11 @@ print(result)
 ```
 
 **output**
+
 > My name is Clara and I live in Berkeley, California. Ist das eine Frage, Frau Müller?
 
+### Predict Labels
 
-### Predict Labels 
 ```python
 from deepmultilingualpunctuation import PunctuationModel
 
@@ -54,9 +59,7 @@ print(labled_words)
 
 > [['My', '0', 0.9999887], ['name', '0', 0.99998665], ['is', '0', 0.9998579], ['Clara', '0', 0.6752215], ['and', '0', 0.99990904], ['I', '0', 0.9999877], ['live', '0', 0.9999839], ['in', '0', 0.9999515], ['Berkeley', ',', 0.99800044], ['California', '.', 0.99534047], ['Ist', '0', 0.99998784], ['das', '0', 0.99999154], ['eine', '0', 0.9999918], ['Frage', ',', 0.99622655], ['Frau', '0', 0.9999889], ['Müller', '?', 0.99863917]]
 
-
-
-## Results 
+## Results
 
 The performance differs for the single punctuation markers as hyphens and colons, in many cases, are optional and can be substituted by either a comma or a full stop. The model achieves the following F1 scores for the different languages:
 
@@ -72,11 +75,11 @@ The performance differs for the single punctuation markers as hyphens and colons
 
 ### Available Models
 
-| Languages                                  | Model                                                        |
-| ------------------------------------------ | ------------------------------------------------------------ |
-| English, Italian, French and German        | [oliverguhr/fullstop-punctuation-multilang-large](https://huggingface.co/oliverguhr/fullstop-punctuation-multilang-large) |
-| English, Italian, French, German and Dutch | [oliverguhr/fullstop-punctuation-multilingual-base](https://huggingface.co/oliverguhr/fullstop-punctuation-multilingual-base) |
-| Dutch                                      | [oliverguhr/fullstop-dutch-punctuation-prediction](https://huggingface.co/oliverguhr/fullstop-dutch-punctuation-prediction) |
+| Languages                                  | Model                                                                                                                           |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| English, Italian, French and German        | [oliverguhr/fullstop-punctuation-multilang-large](https://huggingface.co/oliverguhr/fullstop-punctuation-multilang-large)       |
+| English, Italian, French, German and Dutch | [oliverguhr/fullstop-punctuation-multilingual-base](https://huggingface.co/oliverguhr/fullstop-punctuation-multilingual-base)   |
+| Dutch                                      | [oliverguhr/fullstop-dutch-punctuation-prediction](https://huggingface.co/oliverguhr/fullstop-dutch-punctuation-prediction)     |
 | Catalan                                    | [softcatala/fullstop-catalan-punctuation-prediction](https://huggingface.co/softcatala/fullstop-catalan-punctuation-prediction) |
 
 You can use different models by setting the model parameter:
@@ -88,7 +91,6 @@ model = PunctuationModel(model = "oliverguhr/fullstop-dutch-punctuation-predicti
 ### Training other languages
 
 See [training other languages](./other_languages/readme.md)
-
 
 ## How to reproduce
 
@@ -126,10 +128,7 @@ https://drive.switch.ch/index.php/s/g3fMhMZU2uo32mf
   month          = {June},
   year           = {2021},
   address        = {Winterthur, Switzerland},
-  publisher      = {CEUR Workshop Proceedings},  
+  publisher      = {CEUR Workshop Proceedings},
   url       = {http://ceur-ws.org/Vol-2957/sepp_paper4.pdf}
 }
 ```
-
-
-
