@@ -3,26 +3,26 @@
     {
       "id": 16,
       "task": 2,
-      "model": "roberta-large",
+      "model": "roberta-base",
       "languages": ["mn"],
       "augmentation": [""],
       "data_percentage": 1,
       "use_token_type_ids": false,
       "tokenizer_config": { "strip_accent": false, "add_prefix_space": true },
-      "opimizer_config": { "adafactor": true, "num_train_epochs": 2 }
+      "opimizer_config": { "adafactor": true, "num_train_epochs": 5 }
     }
   ],
   "tests": [
     {
       "id": 22,
       "task": 2,
-      "model": "roberta-large",
+      "model": "roberta-base",
       "languages": ["mn"],
       "augmentation": [""],
       "data_percentage": 1,
       "use_token_type_ids": false,
       "tokenizer_config": { "strip_accent": false, "add_prefix_space": true },
-      "opimizer_config": { "adafactor": true, "num_train_epochs": 2 }
+      "opimizer_config": { "adafactor": true, "num_train_epochs": 5 }
     }
   ]
 }

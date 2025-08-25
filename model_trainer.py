@@ -11,6 +11,7 @@ from tqdm import tqdm
 import datetime
 import random
 from tools import print_cm
+import torch
 
 class ModelTrainer():
     def __init__(self, task:int, model:str,run_name:str, data_percentage:float,use_token_type_ids:bool, opimizer_config, tokenizer_config,languages,do_hyperparameter_search = False, **args):
@@ -57,10 +58,16 @@ class ModelTrainer():
                 last_word_id = word_id
             labels.append(doc_encoded_labels)
         
-        tokenized_inputs["labels"] = labels    
+        tokenized_inputs["labels"] = labels  
+        # print("tokenized_inputs: ", tokenized_inputs)  
+        # print("Tokenize and align data: Completed")
         return tokenized_inputs
 
     def to_dataset(self,data,stride=0):
+        print("to_dataset: Entered")
+        # Print data example
+        print("data: ", data)
+
         labels, token_type_ids, input_ids, attention_masks = [],[],[],[]
         for item in tqdm(data):
             result = self.tokenize_and_align_data(item,stride=stride)        
@@ -69,6 +76,13 @@ class ModelTrainer():
                 token_type_ids += result['token_type_ids']
             input_ids += result['input_ids']
             attention_masks += result['attention_mask']
+
+            # print("labels: ", result['labels'])
+            # print("input ids: ", result['input_ids'])
+            # print("attention masks: ", result['attention_mask'])
+
+            # input("Press Enter to continue...")  # Debugging pause
+
         if self.use_token_type_ids:
             return Dataset.from_dict({'labels': labels, 'token_type_ids':token_type_ids, 'input_ids':input_ids, 'attention_mask':attention_masks})
         else:
@@ -118,6 +132,7 @@ class ModelTrainer():
         #aug_data = aug_data[:int(len(aug_data)*data_factor)] # limit data to x%
         print("tokenize training data")
         tokenized_dataset_train = self.to_dataset(train_data,stride=100)
+
         del train_data
         #tokenized_dataset_aug = to_dataset(aug_data,stride=100)
         #del aug_data
@@ -133,9 +148,12 @@ class ModelTrainer():
         print("tokenize validation data")
         val_data = val_data[:int(len(val_data)*self.data_factor)] # limit data to x%
         tokenized_dataset_val = self.to_dataset(val_data)
+
         del val_data
 
-        ## train model
+        # Check mpc availability using torch
+        device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+        print(f"Using device: {device}")
 
         print("Training model with run name: ", self.run_name)
         args = TrainingArguments(
@@ -171,11 +189,11 @@ class ModelTrainer():
             return AutoModelForTokenClassification.from_pretrained(self.model_checkpoint, num_labels=len(self.label_2_id))
 
         print("Model init function created")
-        print("Training dataset features:")
-        print(tokenized_dataset_train.features)
+        # print("Training dataset features:")
+        # print(tokenized_dataset_train.features)
 
         print("\nValidation dataset features:")
-        print(tokenized_dataset_val.features)
+        # print(tokenized_dataset_val.features)
 
         # self.diagnose_trainer_issues(
         #     model_init=model_init,
@@ -222,9 +240,8 @@ class ModelTrainer():
             return metrics['eval_f1']
 
         result = trainer.hyperparameter_search(direction="maximize",n_trials=200,hp_space=my_hp_space, compute_objective=my_objective)
-        print("---hyper---")
-        print(result)
-        print("---hyper---")
+        
+        # print(result)
         return result
     
     from typing import Callable, Dict, Any, Optional
