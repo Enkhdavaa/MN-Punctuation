@@ -14,3 +14,4 @@ env/
 venv/
 *.env
 
+model_final_suite_results_task*.*
