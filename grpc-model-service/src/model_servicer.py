@@ -1,15 +1,14 @@
 from concurrent import futures
 
-# Import the generated classes
 import sys
 import os
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '../proto'))
+sys.path.append(os.path.dirname(__file__))
 
 import model_service_pb2
 import model_service_pb2_grpc
 
-from run_puntuation_model.punctuationmode import PunctuationModel
+from punctuation import PunctuationModel
 
 class ModelServiceServicer(model_service_pb2_grpc.ModelServiceServicer):
 
@@ -18,5 +17,5 @@ class ModelServiceServicer(model_service_pb2_grpc.ModelServiceServicer):
 
     def RestorePunctuation(self, request, context):
         text = request.text
-        restored_text = self.model.restore_punctuation(text)
-        return model_service_pb2.PunctuationResponse (restored_text=restored_text)
+        punctuated_text = self.model.run_model(text)
+        return model_service_pb2.PunctuationResponse(restored_text=punctuated_text) # type: ignore

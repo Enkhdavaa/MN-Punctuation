@@ -1,0 +1,1 @@
+python ./grpc-model-service/src/main.py
